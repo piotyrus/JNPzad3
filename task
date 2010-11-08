@@ -1,0 +1,59 @@
+Zadanie polega na zaimplementowaniu klasy Rational reprezentującej liczby wymierne. Do reprezentacji składowych liczby wymiernej można użyć typu long. Następujące polecenia powinny być dostępne:
+
+Rational r - tworzy ułamek zerowy,
+Rational r(i) - tworzy liczbę wymierną na podstawie liczby całkowitej i,
+Rational r(n,d) - tworzy liczbę wymierną równą ułamkowi n/d,
+Rational r2(r1) - tworzy kopię liczby wymiernej r1.
+
+r.n() - jeżeli r jest poprawną liczbą, to zwraca licznik skróconego ułamka r.
+r.d() - jeżeli r jest poprawną liczbą, to zwraca mianownik skróconego ułamka r.
+
+r1 = r2 - przypisuje liczbę wymierną r2 na liczbę wymierną r1.
+r1 = i - przypisuje liczbę całkowitą i na liczbę wymierną r1.
+
+-r1 - zwraca liczbę wymierną przeciwną do r1.
+
+r1 + r2 - zwraca wynik dodawania r1 do r2.
+r1 - r2 - zwraca wynik odejmowania r1 od r2.
+r1 * r2 - zwraca wynik mnożenia r1 przez r2.
+r1 / r2 - zwraca wynik dzielenia r1 przez r2.
+
+r1 += r2 - dodaje liczbę wymierną r1 do liczby wymiernej r2.
+r1 -= r2 - odejmuje liczbę wymierną r1 od liczby wymiernej r2.
+r1 *= r2 - mnoży liczbę wymierną r1 przez liczbę wymierną r2.
+r1 /= r2 - dzieli liczbę wymierną r1 przez liczbę wymierną r2.
+
+Wszystkie operacje arytmetyczne i pokrewne operatory przypisania powyżej mają być również możliwe z udziałem argumentów całkowitych. Użytkownik ma prawo oczekiwać, że operacje nie spowodują przekroczenia zakresu o ile nie powodują go, gdy wykonywane są na uproszczonych ułamkach.
+
+r1 == r2, r1 < r2, r1 <= r2 - porównanie dwóch liczby wymiernych. Uwaga! Jeżeli chociaż jeden z argumentów nie jest poprawną liczbą wymierną, to wynikiem ma być false. Pozostałe operatory (!=, > i >=) powinny być również dostępne (i też dawać false, gdy jeden z argumentów nie jest poprawną liczbą wymierną).
+
+Zero() - stała reprezentująca 0
+One() - stała reprezentująca 1
+
+isNumber() - metoda zwraca true wtw., gdy liczba wymierna jest poprawną liczbą. Niepoprawne są liczby mające mianownik 0 lub otrzymane w wyniku operacji arytmetycznych (i operacji pokrewnych) na liczbach wymiernych, z których chociaż jedna nie była poprawna. Np.:
+
+Rational r0(0,0); // r0 nie jest poprawną liczbą.
+Rational r1(5,0); // r1 nie jest poprawną liczbą.
+Rational r2(-3,0); // r2 nie jest poprawną liczbą.
+Rational r3(5,2); // r3 jest poprawną liczbą.
+Rational r4(r1); // r4 nie jest poprawną liczbą.
+Rational r5 = r1 / r2; // r5 nie jest poprawną liczbą.
+r3 += r1; // r3 nie jest już poprawną liczbą.
+
+os << r - wypisuje liczbę wymierną r na strumień os (z oddzieloną częścią całkowitą). Czyli np. 4/2 powinno się wypisać jako 2, 7/2 jako 3+1/2 zaś 1/2 jako 1/2. Ułamki, które nie są poprawną liczbą mają się wypisać jako NaN.
+
+Należy również umożliwić używanie liczb wymiernych w instrukcjach sterujących przepływem (konstrukcje takie jak if(r)). Liczba wymierna jest "prawdziwa" wtw., gdy jest poprawną liczbą i jest niezerowa.
+
+Operatory powinny mieć konwencjonalną semantykę, tzn. być przemienne, łączne, rozdzielne itd., gdy tylko jest to możliwe matematycznie. Wszystkie operatory, metody i funkcje powinny przyjmować argumenty oraz generowac wyniki, których typy są zgodne z ogólnie przyjętymi konwencjami w zakresie używania referencji, wartości typu const i obiektów statycznych.
+
+Rozwiązanie
+
+Rozwiązanie powinno składać się z plików rational.h oraz rational.cc. Pliki te należy umieścić w repozytorium w katalogu
+
+grupaN/zadanie3/ab123456+cd123456
+
+lub
+
+grupaN/zadanie3/ab123456+cd123456+ef123456
+
+gdzie N jest numerem grupy, a ab123456, cd123456, ef123456 są identyfikatorami członków zespołu umieszczającego to rozwiązanie. Katalog z rozwiązaniem nie powinien zawierać innych plików

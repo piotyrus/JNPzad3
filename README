@@ -5,6 +5,28 @@ Course site: https://moodle.mimuw.edu.pl/course/view.php?id=201
 Program no. 3
 "Rational numbers"
 
+Task content in 'content' file (in Polish).
+
 Authors:
 Bobowski Lukasz
 Piotr Wojciechowski
+
+TODO:
+- class,
+- constructors,
+- operators:
+-- +, -
+-- *, /
+-- =
+-- +=, -=
+-- *=, /=
+-- ==, <. <=, !=. >, >=
+-- stream os << Rational r,
+-- !!!!!Warning!!!! operators must support commutavity, associativity, 
+   distributivity - as in natural semantics
+- contants:
+-- Zero()
+-- One()
+- methods:
+-- isNumber (checks if rational number is correct number),
+- handling 'if(Rational)' construction
