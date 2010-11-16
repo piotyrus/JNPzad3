@@ -4,41 +4,60 @@
  *  Created on: 2010-11-14
  *      Author: piotr
  */
-#include <ostream>
+#include <iostream>
+#include <cstdio>
 #include "rational.h"
 
 using namespace std;
 
-/*class MyInt
-    : boost::operators<Rational>
-{
-    bool operator<(const Rational& x) const;
-    bool operator==(const Rational& x) const;
-    Rational& operator+=(const Rational& x);
-    Rational& operator-=(const Rational& x);
-    Rational& operator*=(const Rational& x);
-    Rational& operator/=(const Rational& x);
-    Rational& operator%=(const Rational& x);
-    Rational& operator^=(const Rational& x);
-    Rational& operator++();
-    Rational& operator--();
-};*/
 
-static Rational NaN(0L, 0UL);
-
-
-int gcd(unsigned long a, unsigned long b){
-	if(b == 0L)
+/*	this is the greatest common divisor function
+ */
+long gcd(unsigned long a, unsigned long b){
+	if(b == 0UL)
 		return a;
 	else
 		return gcd(b, a % b);
+}
+
+unsigned long abs(long a){
+	return a >= 0 ? a : -a;
+}
+
+Rational::Rational(){
+	numerator = 0L;
+	denominator = 1UL;
+	isRational = true;
+}
+
+Rational::Rational (long l){
+	numerator = l;
+	denominator = 1UL;
+	isRational = true;
+}
+
+Rational::Rational(long n, unsigned long d){
+	numerator = n;
+	denominator = d;
+	if (numerator != 0 && denominator != 0){
+		numerator /= gcd(abs(n), d);
+		denominator /= gcd(abs(n), d);
+	}
+	//cout << numerator << "/" << denominator << endl;
+	isRational = (denominator != 0UL);
+}
+
+Rational::Rational(const Rational& r){
+	numerator = r.numerator;
+	denominator = r.denominator;
+	isRational = r.isRational;
 }
 
 void Rational::opposite(){
 	numerator = -numerator;
 
 	return;
-} // safe even for NaN since it doesn't change denominator
+}
 
 void Rational::reciprocal(){
 	long temp;
@@ -58,7 +77,7 @@ Rational& Rational::operator+=(const Rational& x){
 	if (!x.isRational){
 		isRational = false;
 	}
-	long lcm = (numerator * x.numerator)/gcd(numerator, x.numerator);
+	long lcm = (denominator * x.denominator)/gcd(denominator, x.denominator);
 		//least common multiple
 	numerator = (numerator * x.denominator + x.numerator * denominator)
 			/gcd(numerator, x.numerator);
@@ -67,10 +86,10 @@ Rational& Rational::operator+=(const Rational& x){
 }
 
 Rational& Rational::operator -=(const Rational& x){
-						//check later for Nan additon!!
 	Rational minus(x);
 	minus.opposite();
-	return *this += minus;
+	*this += minus;
+	return *this;
 }
 
 Rational& Rational::operator *=(const Rational& x){
@@ -85,34 +104,9 @@ Rational& Rational::operator *=(const Rational& x){
 Rational& Rational::operator /=(const Rational& x){
 	Rational divide(x);
 	divide.reciprocal();
-	return *this *= divide;
+	*this *= divide;
+	return *this;
 }
-
-Rational::Rational(){
-	numerator = 0L;
-	denominator = 1UL;
-	isRational = true;
-}
-
-Rational::Rational (long l){
-	numerator = l;
-	denominator = 1;
-	isRational = true;
-}
-
-Rational::Rational(long n, unsigned long d){
-	unsigned temp = n < 0 ? -n : n;  //czy to dobra konwersja int to unsigned?
-	numerator = n / gcd(temp, d);
-	denominator = d / gcd(temp, d);
-	isRational = (denominator != 0UL);
-}
-
-Rational::Rational(const Rational& r){
-	numerator = r.numerator;
-	denominator = r.denominator;
-	isRational = r.isRational;
-}
-
 
 
 const Rational& operator+(const Rational& a, const Rational& b){
@@ -144,11 +138,36 @@ bool Rational::isNumber() const{
 }
 
 ostream& operator<<(ostream& os, const Rational& r) {
-  if (r.isNumber()){
-	  os << r.numerator /r.denominator << " " << "/" << r.denominator;
+  if (r.isRational){
+	  if (abs(r.numerator) / r.denominator > 0){
+		  if (r.numerator < 0)
+			  os << "-";
+		  os << abs(r.numerator) /r.denominator;
+		  if (abs(r.numerator) % r.denominator > 0 && r.numerator > 0)
+			  os << "+";
+	  } else if (abs(r.numerator) % r.denominator == 0){
+			  os << 0L;
+		  }
+	  if (abs(r.numerator) % r.denominator > 0){
+		  if (r.numerator < 0)
+			  os << "-";
+		  os << abs(r.numerator) % r.denominator << "/" <<r.denominator;
+	  }
+
   } else
 	  os << "NaN";
   return os;
 }
 
-int main() {}
+int main() {
+	Rational a;
+	cout << a << endl;
+	Rational b(a);
+	cout << b << endl;
+	Rational c(1L);
+	cout << c << endl;
+	Rational d(8L, 5UL);
+	cout << d << endl;
+	c /= d;
+	cout << c << endl;
+}
