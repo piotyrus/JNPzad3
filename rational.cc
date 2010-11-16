@@ -20,8 +20,18 @@ long gcd(unsigned long a, unsigned long b){
 		return gcd(b, a % b);
 }
 
-unsigned long abs(long a){
+/*unsigned long abs(long a){
 	return a >= 0 ? a : -a;
+}*/
+
+const Rational Rational::Zero(){
+	static const Rational zero = Rational();
+	return zero;
+}
+
+const Rational Rational::One(){
+	static const Rational one = Rational(1L);
+	return one;
 }
 
 Rational::Rational(){
@@ -43,7 +53,6 @@ Rational::Rational(long n, unsigned long d){
 		numerator /= gcd(abs(n), d);
 		denominator /= gcd(abs(n), d);
 	}
-	//cout << numerator << "/" << denominator << endl;
 	isRational = (denominator != 0UL);
 }
 
@@ -60,9 +69,8 @@ void Rational::opposite(){
 }
 
 void Rational::reciprocal(){
-	long temp;
+	long temp = numerator;
 
-	temp = numerator;
 	numerator = temp >= 0 ? denominator : -denominator;	//what about this conversion and sign?
 	denominator = temp >= 0? temp : -temp;
 	/* swap values, check if it is still proper number */
@@ -80,7 +88,7 @@ Rational& Rational::operator+=(const Rational& x){
 	long lcm = (denominator * x.denominator)/gcd(denominator, x.denominator);
 		//least common multiple
 	numerator = (numerator * x.denominator + x.numerator * denominator)
-			/gcd(numerator, x.numerator);
+			/gcd(denominator, x.denominator);
 	denominator = lcm;
 	return *this;
 }
@@ -108,33 +116,67 @@ Rational& Rational::operator /=(const Rational& x){
 	return *this;
 }
 
-
-const Rational& operator+(const Rational& a, const Rational& b){
-  Rational c(a);
-  return c += b;
+const bool Rational::operator <=(const Rational& x) const{
+		return isRational && x.isRational
+		&& numerator * x.denominator <= x.numerator * denominator;
 }
 
-const Rational& operator-(const Rational& a, const Rational& b){
-  Rational c(a);
-  return c -= b;
+const bool Rational::operator <(const Rational& x) const{
+		return isRational && x.isRational
+		&& numerator * x.denominator < x.numerator * denominator;
 }
 
-const Rational& operator*(const Rational& a, const Rational& b) {
-  Rational c(a);
-  return c *= b;
+const bool Rational::operator >(const Rational& x) const{
+		return isRational && x.isRational
+		&& x< *this;
 }
 
-const Rational& operator/(const Rational& a, const Rational& b){
-  Rational c(a);
-  return c /= b;
+const bool Rational::operator >=(const Rational& x) const{
+		return isRational && x.isRational
+		&& x <= *this;
 }
 
-/*const Rational& operator>(const Rational& a, const Rational& b){
-  return b <= a;		//?? co jak zwroci false ze wzgledu na NaN  ??
-}*/
+const bool Rational::operator ==(const Rational& x) const{
+	return isRational && x.isRational
+	&& numerator * x.denominator == x.numerator * denominator;
+}
+
+const bool Rational::operator !=(const Rational& x) const{
+	return isRational && x.isRational
+	&& !(*this == x);
+}
+
+const bool operator <(const long& l, const Rational& r){
+	return r > l;
+}
+
+const bool operator >(const long& l, const Rational& r){
+	return r < l;
+}
+
+const bool operator >=(const long& l, const Rational& r){
+	return r <= l;
+}
+
+const bool operator <=(const long& l, const Rational& r){
+	return r >= l;
+}
+
+const bool operator ==(const long& l, const Rational& r){
+	return r == l;
+}
+
+const bool operator !=(const long& l, const Rational& r){
+	return r != l;
+}
 
 bool Rational::isNumber() const{
 	return isRational;
+}
+
+const Rational& Rational::operator -(){
+	opposite();
+	return *this;
 }
 
 ostream& operator<<(ostream& os, const Rational& r) {
@@ -164,10 +206,10 @@ int main() {
 	cout << a << endl;
 	Rational b(a);
 	cout << b << endl;
-	Rational c(1L);
+	Rational c(5L);
 	cout << c << endl;
 	Rational d(8L, 5UL);
-	cout << d << endl;
-	c /= d;
+	c = 1 / c;
 	cout << c << endl;
+	cout << (0 >= c) << endl;
 }

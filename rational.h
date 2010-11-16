@@ -4,10 +4,15 @@
  *  Created on: 2010-11-14
  *      Author: piotr
  */
-#include <ostream>
+#include <boost/operators.hpp>
 
 
-class Rational {
+class Rational
+    : boost::addable< Rational >
+    , boost::subtractable< Rational >
+    , boost::dividable< Rational >
+    , boost::multipliable< Rational >
+{
   public:
 	Rational();
 	Rational(long);
@@ -19,11 +24,19 @@ class Rational {
 	Rational& operator*=(const Rational& x);
 	Rational& operator/=(const Rational& x);
 
-	bool operator<=(const Rational& x);
-	bool operator<(const Rational& x);
-	bool operator==(const Rational& x);
+	const Rational& operator-();
+
+	const bool operator<=(const Rational& x) const;
+	const bool operator>=(const Rational& x) const;
+	const bool operator<(const Rational& x) const;
+	const bool operator>(const Rational& x) const;
+	const bool operator==(const Rational& x) const;
+	const bool operator!=(const Rational& x) const;
 
 	bool isNumber() const;
+
+	static const Rational One();
+	static const Rational Zero();
 
 	friend std::ostream& operator<<(std::ostream& os, const Rational& r);
   private:
@@ -33,10 +46,11 @@ class Rational {
 
     void opposite();
     void reciprocal();
-
 };
 
-const Rational& operator+(const Rational& a, const Rational& b);
-const Rational& operator-(const Rational& a, const Rational& b);
-const Rational& operator*(const Rational& a, const Rational& b);
-const Rational& operator/(const Rational& a, const Rational& b);
+const bool operator <=(const long& l, const Rational& r);
+const bool operator >=(const long& l, const Rational& r);
+const bool operator<(const long& l, const Rational& r);
+const bool operator>(const long& l, const Rational& r);
+const bool operator ==(const long& l, const Rational& r);
+const bool operator !=(const long& l, const Rational& r);

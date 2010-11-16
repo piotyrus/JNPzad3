@@ -1,0 +1,4 @@
+wrzuciłem wersję używającą boost/operators.hpp.
+
+W ubuntu mozna ja zdobyc wpisujac:
+sudo apt-get install libboost-dev libboost-doc
