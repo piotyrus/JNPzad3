@@ -14,7 +14,7 @@ class Rational {
 	Rational(long, unsigned long);
 	Rational(const Rational&);
 
-        Rational& operator+=(const Rational& x);
+    Rational& operator+=(const Rational& x);
 	Rational& operator-=(const Rational& x);
 	Rational& operator*=(const Rational& x);
 	Rational& operator/=(const Rational& x);
@@ -28,7 +28,8 @@ class Rational {
 	friend std::ostream& operator<<(std::ostream& os, const Rational& r);
   private:
     long numerator;
-    unsigned long denominator; //denominator == 0 <=> NaN!
+    unsigned long denominator;
+    bool isRational;
 
     void opposite();
     void reciprocal();
