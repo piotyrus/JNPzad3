@@ -25,7 +25,7 @@ long gcd(unsigned long a, unsigned long b){
 }*/
 
 const Rational Rational::Zero(){
-	static const Rational zero = Rational();
+	static const Rational zero = Rational(0L);
 	return zero;
 }
 
@@ -201,6 +201,11 @@ ostream& operator<<(ostream& os, const Rational& r) {
   return os;
 }
 
+bool Rational::boolean_test() const{
+	//cout << "Rational::boolean_test()" << endl;
+	return isRational && numerator != Rational::Zero();
+}
+
 int main() {
 	Rational a;
 	cout << a << endl;
@@ -208,8 +213,14 @@ int main() {
 	cout << b << endl;
 	Rational c(5L);
 	cout << c << endl;
-	Rational d(8L, 5UL);
-	c = 1 / c;
-	cout << c << endl;
-	cout << (0 >= c) << endl;
+	Rational d(8L, 0UL);
+	cout << d << endl;
+	d = 1 / d;
+	cout << d << endl;
+	if (a <= b)
+		cout << d << endl;
+	if (c)
+		cout << d << endl;
+	if (d)
+		cout << a << endl;
 }
