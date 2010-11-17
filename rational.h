@@ -72,21 +72,25 @@ class Rational
 	Rational& operator*=(const Rational& x);
 	Rational& operator/=(const Rational& x);
 
-	const Rational& operator-();
-
-	const bool operator<=(const Rational& x) const;
+	/*const bool operator<=(const Rational& x) const;
 	const bool operator>=(const Rational& x) const;
 	const bool operator<(const Rational& x) const;
 	const bool operator>(const Rational& x) const;
 	const bool operator==(const Rational& x) const;
-	const bool operator!=(const Rational& x) const;
+	const bool operator!=(const Rational& x) const;*/
+
+	const Rational operator-() const;
 
 	bool isNumber() const;
 
 	bool boolean_test() const;
 
-	static const Rational One();
-	static const Rational Zero();
+	friend const bool operator<=(const Rational& x, const Rational& y);
+	friend const bool operator>=(const Rational& x, const Rational& y);
+	friend const bool operator<(const Rational& x, const Rational& y);
+	friend const bool operator>(const Rational& x, const Rational& y);
+	friend const bool operator==(const Rational& x, const Rational& y);
+	friend const bool operator!=(const Rational& x, const Rational& y);
 
 	friend std::ostream& operator<<(std::ostream& os, const Rational& r);
 
@@ -99,9 +103,5 @@ class Rational
     void reciprocal();
 };
 
-const bool operator <=(const long& l, const Rational& r);
-const bool operator >=(const long& l, const Rational& r);
-const bool operator<(const long& l, const Rational& r);
-const bool operator>(const long& l, const Rational& r);
-const bool operator ==(const long& l, const Rational& r);
-const bool operator !=(const long& l, const Rational& r);
+const Rational& One();
+const Rational& Zero();
